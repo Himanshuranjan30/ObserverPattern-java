@@ -39,16 +39,15 @@ class ObserverExample {
 
             if (str.charAt(0) == '+') {
                 palpatine.onUpdate(anakin);
-                System.out.println(anakin.observers.size());
+                System.out.println(str.substring(1)+" has "+anakin.observers.size()+" Subscriber now.");
 
-                String color=anakin.posts.get(str.substring(1));
-                System.out.println(color);
+
                 submap.put(str.substring(1),anakin.posts.get(str.substring(1)));
 
 
             } else if(str.charAt(0)=='-') {
                 palpatine.onUpdatedelete(anakin);
-                System.out.println(anakin.observers.size());
+                System.out.println(str.substring(1)+" has "+anakin.observers.size()+" Subscriber now.");
                 submap.remove(str.substring(1));
             }
             else if(str.equals("list items"))
