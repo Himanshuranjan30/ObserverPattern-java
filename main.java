@@ -1,21 +1,35 @@
 package com.example.myapplication;
 
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
+
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 class ObserverExample {
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public static void main(String[] args) throws InterruptedException {
         Anakin anakin = new Anakin();
         Palpatine palpatine = new Palpatine();
-        anakin.posts.add(new item("banana","yellow"));
-        anakin.posts.add(new item("Frog","Green"));
-        List subscribed = new ArrayList();
+        anakin.posts.put("banana","yellow");
+        anakin.posts.put("frog","green");
+
+
+
+
+
+         Map<String, String> submap = new HashMap<>();
+
 
         // We will watch your career with great interest!
         while(true) {
@@ -26,20 +40,39 @@ class ObserverExample {
             if (str.charAt(0) == '+') {
                 palpatine.onUpdate(anakin);
                 System.out.println(anakin.observers.size());
-                subscribed.add(str.substring(1));
+
+                String color=anakin.posts.get(str.substring(1));
+                System.out.println(color);
+                submap.put(str.substring(1),anakin.posts.get(str.substring(1)));
 
 
             } else if(str.charAt(0)=='-') {
                 palpatine.onUpdatedelete(anakin);
                 System.out.println(anakin.observers.size());
-                subscribed.remove(str.substring(1));
+                submap.remove(str.substring(1));
             }
             else if(str.equals("list items"))
             {
-                for(int i=0;i<subscribed.size();i++)
-                    System.out.println(subscribed.get(i));
+                System.out.println(submap.keySet());
             }
-            else break;
+            else if(str.equals("exit"))
+            {
+                break;
+            }
+            else { ;
+                for(HashMap.Entry<String, String> entry: submap.entrySet()) {
+
+                    // if give value is equal to value from entry
+                    // print the corresponding key
+
+                    if(entry.getValue().equals(str)) {
+                        System.out.println(entry.getKey());
+                        break;
+                    }
+                }
+
+
+            }
 
 
         }
@@ -72,7 +105,7 @@ class ObserverExample {
         private Set<Observer> observers = new HashSet<>();
 
         // This collection simulates a DB.
-        public Deque<item> posts = new ArrayDeque<>();
+        public HashMap<String,String> posts = new HashMap<>();
 
 
 
@@ -166,8 +199,8 @@ class Sleeper {
 }
 
 class item{
-    String itemname;
     String color;
+    String itemname;
 
     public item(String s, String s1) {
         itemname=s;
