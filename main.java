@@ -4,25 +4,26 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 class ObserverExample {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public static void main(String[] args) throws InterruptedException {
-        Anakin anakin = new Anakin();
-        Palpatine palpatine = new Palpatine();
-        anakin.posts.put("banana","yellow");
-        anakin.posts.put("frog","green");
+        C1 c1 = new C1();
+        C2 c2 = new C2();
+        c1.posts.put("banana","yellow");
+        c1.posts.put("frog","green");
+        c1.posts.put("ink","red");
+        c1.posts.put("salt","white");
+        c1.posts.put("blood","red");
+        c1.posts.put("sky","blue");
+        c1.posts.put("apple","red");
+
 
 
 
@@ -38,16 +39,16 @@ class ObserverExample {
             String str = sc.nextLine();
 
             if (str.charAt(0) == '+') {
-                palpatine.onUpdate(anakin);
-                System.out.println(str.substring(1)+" has "+anakin.observers.size()+" Subscriber now.");
+                c2.onUpdate(c1);
+                System.out.println(str.substring(1)+" has "+ c1.observers.size()+" Subscriber now.");
 
 
-                submap.put(str.substring(1),anakin.posts.get(str.substring(1)));
+                submap.put(str.substring(1), c1.posts.get(str.substring(1)));
 
 
             } else if(str.charAt(0)=='-') {
-                palpatine.onUpdatedelete(anakin);
-                System.out.println(str.substring(1)+" has "+anakin.observers.size()+" Subscriber now.");
+                c2.onUpdatedelete(c1);
+                System.out.println(str.substring(1)+" has "+ c1.observers.size()+" Subscriber now.");
                 submap.remove(str.substring(1));
             }
             else if(str.equals("list items"))
@@ -66,7 +67,7 @@ class ObserverExample {
 
                     if(entry.getValue().equals(str)) {
                         System.out.println(entry.getKey());
-                        break;
+
                     }
                 }
 
@@ -81,7 +82,7 @@ class ObserverExample {
     // IMPLEMENTATIONS
     // ==============================================================
 
-    public static class Palpatine implements Observer {
+    public static class C2 implements Observer {
 
         @Override
         public void onUpdate(Observable observable) {
@@ -99,7 +100,7 @@ class ObserverExample {
 
     }
 
-    public static class Anakin implements Observable {
+    public static class C1 implements Observable {
 
         private Set<Observer> observers = new HashSet<>();
 
